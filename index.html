@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f6b73"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><link rel="icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Расписание"><title>Расписание</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:16px Inter,system-ui,Arial,sans-serif;background:#f4f7f8;color:#14212b;padding-bottom:90px}
+[hidden]{display:none!important}
+.top{position:sticky;top:0;background:#f4f7f8;padding:14px 16px 8px;z-index:2}.top>*,#list{max-width:760px;margin-left:auto;margin-right:auto}
+.top h1{margin:0 0 8px;font-size:21px;text-transform:capitalize}
+.nav{display:flex;gap:8px}.nav button,.nav input{height:42px;border:1px solid #c3ccd2;border-radius:10px;background:#fff;font:inherit;padding:0 14px}
+.nav input{flex:1}
+#list{padding:6px 16px;width:100%;display:flex;flex-direction:column;gap:10px}
+.it{display:flex;gap:10px}.tm{width:46px;flex:none;padding-top:6px;font-size:13px;font-weight:600;color:#3f4a52}
+.cd{flex:1;min-width:0;border-radius:12px;padding:10px 12px;border:1px solid;display:flex;flex-direction:column;gap:3px;cursor:pointer}
+.cd b{font-size:15px}.cd small{font-size:13px;color:#2f3d47}.cd i{font-style:normal;font-size:12px;font-weight:600}
+.fab{position:fixed;left:50%;transform:translateX(-50%);width:min(760px,calc(100% - 32px));bottom:calc(18px + env(safe-area-inset-bottom));height:52px;border:0;border-radius:14px;background:#0f6b73;color:#fff;font:600 16px inherit}
+@media(min-width:900px){body{font-size:17px}.tm{width:56px}.cd{padding:12px 16px}}dialog{width:min(460px,94vw);border:0;border-radius:16px;padding:16px;background:#f4f7f8}
+dialog::backdrop{background:#0008}
+label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:#3f4a52;margin-bottom:10px}
+input,select{height:46px;border:1px solid #c3ccd2;border-radius:10px;padding:0 12px;font:16px inherit;background:#fff}
+.row{display:flex;gap:10px}.row label{flex:1}.ch{display:flex;gap:6px;margin-bottom:10px}
+.ch button{flex:1;height:42px;border:1px solid #c3ccd2;border-radius:10px;background:#fff;font:600 14px inherit}.ch .on{background:#0f6b73;color:#fff;border-color:#0f6b73}
+.acts{display:flex;gap:8px}.acts button{flex:1;height:48px;border-radius:12px;border:1px solid #c3ccd2;background:#fff;font:600 15px inherit}.acts .ok{background:#0f6b73;color:#fff;border:0}.acts .del{color:#b42318}
+#login{padding:60px 24px;text-align:center}#login button{height:50px;padding:0 24px;border:0;border-radius:12px;background:#0f6b73;color:#fff;font:600 16px inherit}
+.msg{padding:20px 16px;color:#4f5b64}
+</style></head><body>
+<div id="login" hidden><h1>Расписание</h1><p id="lmsg">Войдите в свой аккаунт Google</p><button id="in">Войти через Google</button></div>
+<div id="app" hidden>
+<div class="top"><h1 id="ttl"></h1><div class="nav"><button id="pv">‹</button><input type="date" id="dt"><button id="td">Сегодня</button><button id="nx">›</button></div></div>
+<div id="list"></div><button class="fab" id="add">+ Новая запись</button></div>
+<dialog id="dlg"><form method="dialog" id="fm" onsubmit="return false">
+<div class="row"><label>Дата<input type="date" id="fd" required></label><label style="max-width:120px">Начало<input type="time" id="ft" required></label></div>
+<label>Пациент<input id="fn" required autocomplete="off"></label>
+<div style="font-size:12px;font-weight:600;color:#3f4a52;margin-bottom:4px">Длительность, мин</div><div class="ch" id="fc"></div>
+<label>Телефон<input id="fp" type="tel"></label><label>Что планируется<input id="fo"></label>
+<label>Статус<select id="fs"><option value="plan">Запись</option><option value="came">Пришёл</option><option value="missed">Не пришёл</option><option value="cancelled">Отменён</option></select></label>
+<div class="acts"><button type="button" id="cx">Отмена</button><button type="button" class="del" id="dl">Удалить</button><button type="button" class="ok" id="sv">Сохранить</button></div></form></dialog>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getFirestore,collection,query,where,onSnapshot,doc,setDoc,deleteDoc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+/* ВСТАВЬТЕ СВОИ ДАННЫЕ из Firebase: Project settings → Your apps → Web */
+const CFG={apiKey:"AIzaSyBzs-bDLFiQ0F08jMuEbpvjmCiVZZILsbY",authDomain:"kabinet-f4595.firebaseapp.com",projectId:"kabinet-f4595",appId:"1:1039574152732:web:76afea81f78c412498d1d9"};
+const OWNER="";/* ваша почта Google */
+const $=s=>document.querySelector(s),app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ST={plan:'запись',came:'✓ пришёл',missed:'✕ не пришёл',cancelled:'отменён'};
+const COL=[['#d8eef0','#9ccfd4'],['#fde9d3','#efc08a'],['#e6e3f7','#b9b2e6'],['#e3f2d9','#b3d89a'],['#fbe0e6','#eeaabb'],['#fff3c4','#e6cf73'],['#dbe8fb','#9dbbe8'],['#ece0d6','#cfb49c']];
+let day=iso(new Date()),unsub=null,items=[],cur=null,dur=30;
+const shift=n=>{const d=new Date(day+'T12:00:00');d.setDate(d.getDate()+n);day=iso(d);watch()};
+function draw(){
+  $('#ttl').textContent=new Date(day+'T12:00:00').toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});$('#dt').value=day;
+  $('#list').innerHTML=items.length?items.map((x,i)=>{const c=x.status==='cancelled'?['#eceff1','#cfd6db']:COL[i%COL.length];
+    return`<div class="it"><div class="tm">${esc(x.time)}</div><div class="cd" data-i="${i}" style="background:${c[0]};border-color:${c[1]};min-height:${Math.max(64,Math.min(150,(x.dur||30)*1.5))}px"><div style="display:flex;justify-content:space-between"><b>${esc(x.name)}</b><i>${ST[x.status]||''}</i></div><small>${esc(x.note)}${x.note&&x.dur?' · ':''}${x.dur?x.dur+' мин':''}</small>${x.phone?`<small>${esc(x.phone)}</small>`:''}</div></div>`}).join(''):'<div class="msg">На этот день записей нет</div>'}
+function watch(){unsub&&unsub();unsub=onSnapshot(query(collection(db,'appts'),where('date','==',day)),s=>{items=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.time||'').localeCompare(b.time||''));draw()},e=>{$('#list').innerHTML='<div class="msg">Ошибка доступа: '+esc(e.message)+'</div>'});draw()}
+function chips(){$('#fc').innerHTML=[15,30,45,60,90,120].map(m=>`<button type="button" data-m="${m}" class="${m===dur?'on':''}">${m}</button>`).join('')}
+function openF(x){cur=x||null;dur=x&&x.dur||30;$('#fd').value=x?x.date:day;$('#ft').value=x?x.time:'';$('#fn').value=x?x.name:'';$('#fp').value=x?x.phone:'';$('#fo').value=x?x.note:'';$('#fs').value=x?x.status:'plan';$('#dl').hidden=!x;chips();$('#dlg').showModal()}
+$('#fc').onclick=e=>{const m=e.target.dataset.m;if(m){dur=+m;chips()}};
+$('#list').onclick=e=>{const c=e.target.closest('.cd');if(c)openF(items[+c.dataset.i])};
+$('#add').onclick=()=>openF();$('#cx').onclick=()=>$('#dlg').close();
+$('#sv').onclick=async()=>{if(!$('#fd').value||!$('#ft').value||!$('#fn').value.trim()){alert('Заполните дату, время и пациента');return}
+  const id=cur?cur.id:'m'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  try{await setDoc(doc(db,'appts',id),{date:$('#fd').value,time:$('#ft').value,name:$('#fn').value.trim(),phone:$('#fp').value.trim(),note:$('#fo').value.trim(),status:$('#fs').value,dur});day=$('#fd').value;$('#dlg').close();watch()}catch(e){alert('Не сохранилось: '+e.message)}};
+$('#dl').onclick=async()=>{if(cur&&confirm('Удалить запись?')){try{await deleteDoc(doc(db,'appts',cur.id));$('#dlg').close()}catch(e){alert(e.message)}}};
+$('#pv').onclick=()=>shift(-1);$('#nx').onclick=()=>shift(1);$('#td').onclick=()=>{day=iso(new Date());watch()};$('#dt').onchange=e=>{if(e.target.value){day=e.target.value;watch()}};
+$('#in').onclick=()=>signInWithPopup(auth,new GoogleAuthProvider()).catch(e=>$('#lmsg').textContent='Не удалось войти: '+e.message);
+onAuthStateChanged(auth,u=>{const ok=u&&(!OWNER||u.email.toLowerCase()===OWNER.toLowerCase());$('#app').hidden=!ok;$('#login').hidden=!!ok;if(u&&!ok)$('#lmsg').textContent='Этот аккаунт не имеет доступа';if(ok)watch();else unsub&&unsub()});
+</script></body></html>
