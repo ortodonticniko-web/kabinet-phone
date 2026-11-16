@@ -25,10 +25,10 @@ input,select{height:46px;border:1px solid var(--ln);border-radius:10px;padding:0
 .st{width:64px;height:46px;border:1px solid var(--ln);border-radius:10px;background:var(--cd);font:600 15px inherit}.acts{display:flex;gap:8px}.acts button{flex:1;height:48px;border-radius:12px;border:1px solid var(--ln);background:var(--cd);font:600 15px inherit}.acts .ok{background:var(--ac);color:var(--on);border:0}.acts .del{color:var(--dg)}
 #login{padding:60px 24px;text-align:center}#login button{height:50px;padding:0 24px;border:0;border-radius:12px;background:var(--ac);color:var(--on);font:600 16px inherit}
 @media(min-width:900px){body{font-size:16px}.ap b{font-size:14px}.ap{font-size:13px}}
-input,select,button{color:var(--tx)}.fab,.ch .on,.acts .ok,#login button,.sw button{color:var(--on)}.sw button{color:#fff}.acts .del{color:var(--dg)}body.pc{min-width:900px}.cg{font-size:12px;font-weight:600;color:var(--mu2);margin:4px 0}.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.sw button{height:46px;border:2px solid var(--ln);border-radius:10px;font:600 13px inherit;color:#fff;text-shadow:0 1px 2px #0006}.sw .on{border-color:var(--tx);box-shadow:0 0 0 2px var(--cd) inset}.nav .gear{width:40px;padding:0}</style></head><body>
+input,select,button{color:var(--tx)}.fab,.ch .on,.acts .ok,#login button,.sw button{color:var(--on)}.sw button{color:#fff}.acts .del{color:var(--dg)}.hd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.hd h1{margin:0!important;min-width:0}.pw{display:flex;gap:8px;flex:none}.rb{width:38px;height:38px;border-radius:50%;border:1px solid var(--ln);background:var(--cd);font-size:19px;line-height:1;padding:0}.ins ol{margin:6px 0 12px;padding-left:20px;line-height:1.5}.ins h3{margin:0 0 4px}body.pc{min-width:900px}.cg{font-size:12px;font-weight:600;color:var(--mu2);margin:4px 0}.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.sw button{height:46px;border:2px solid var(--ln);border-radius:10px;font:600 13px inherit;color:#fff;text-shadow:0 1px 2px #0006}.sw .on{border-color:var(--tx);box-shadow:0 0 0 2px var(--cd) inset}.nav .gear{width:40px;padding:0}</style></head><body>
 <div id="login" hidden><h1>Расписание</h1><p id="lmsg">Войдите в свой аккаунт Google</p><button id="in">Войти через Google</button></div>
 <div id="app" hidden>
-<div class="top"><h1 id="ttl"></h1><div class="nav"><button id="pv">‹</button><input type="date" id="dt"><button id="td">Сегодня</button><button id="nx">›</button><button id="gr" class="gear" title="Оформление и вид">⚙</button></div><div class="gh" id="gh"></div></div>
+<div class="top"><div class="hd"><h1 id="ttl"></h1><span class="pw"><button type="button" id="ia" class="rb" title="Установить на Android">🤖</button><button type="button" id="ii" class="rb" title="Добавить на iPhone">🍎</button></span></div><div class="nav"><button id="pv">‹</button><input type="date" id="dt"><button id="td">Сегодня</button><button id="nx">›</button><button id="gr" class="gear" title="Оформление и вид">⚙</button></div><div class="gh" id="gh"></div></div>
 <div id="grid"></div><button class="fab" id="add">+ Новая запись</button></div>
 <dialog id="dlg"><form method="dialog" id="fm" onsubmit="return false">
 <div class="row"><label>Дата<input type="date" id="fd" required></label><label style="max-width:140px">Начало<select id="ft" required></select></label></div>
@@ -38,6 +38,7 @@ input,select,button{color:var(--tx)}.fab,.ch .on,.acts .ok,#login button,.sw but
 <label>Статус<select id="fs"><option value="plan">Запись</option><option value="came">Пришёл</option><option value="missed">Не пришёл</option><option value="cancelled">Отменён</option></select></label>
 <div class="acts"><button type="button" id="cx">Отмена</button><button type="button" class="del" id="dl">Удалить</button><button type="button" class="ok" id="sv">Сохранить</button></div></form></dialog>
 <dialog id="sdlg"><div class="cg">Оформление</div><div class="sw" id="sw"></div><div class="cg">Вид</div><div class="ch" id="vw"><button type="button" data-v="auto">Авто</button><button type="button" data-v="phone">Телефон</button><button type="button" data-v="pc">ПК</button></div><div class="acts"><button type="button" class="ok" id="sx">Готово</button></div></dialog>
+<dialog id="idlg" class="ins"><h3 id="it"></h3><ol id="il"></ol><div class="acts"><button type="button" class="ok" id="ix">Понятно</button></div></dialog>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -99,6 +100,12 @@ $('#pv').onclick=()=>shift(-1);$('#nx').onclick=()=>shift(1);$('#td').onclick=()
 mq.onchange=()=>{if(!$('#app').hidden)watch()};
 function sUi(){$('#sw').innerHTML=Object.entries(TH).map(([k,t])=>`<button type="button" data-t="${k}" class="${k===thm?'on':''}" style="background:${t.v.ac||L.ac}">${t.n}</button>`).join('');$('#vw').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===vmode))}
 $('#gr').onclick=()=>{sUi();$('#sdlg').showModal()};$('#sx').onclick=()=>$('#sdlg').close();
+let dp=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e});
+if(matchMedia('(display-mode: standalone)').matches||navigator.standalone)document.querySelector('.pw').hidden=true;
+const inst=(t,l)=>{$('#it').textContent=t;$('#il').innerHTML=l.map(x=>'<li>'+x+'</li>').join('');$('#idlg').showModal()};
+$('#ia').onclick=async()=>{if(dp){dp.prompt();try{await dp.userChoice}catch(e){}dp=null}else inst('Android: добавить на главный экран',['Откройте эту страницу в Chrome','Нажмите ⋮ (меню) справа вверху','Выберите «Установить приложение» или «Добавить на главный экран»','Подтвердите — значок «Расписание» появится на экране'])};
+$('#ii').onclick=()=>inst('iPhone: добавить на экран «Домой»',['Откройте эту страницу в Safari (не в Chrome)','Нажмите кнопку «Поделиться» ⬆︎ внизу экрана','Прокрутите и выберите «На экран “Домой”»','Нажмите «Добавить» — значок «Расписание» появится на экране']);
+$('#ix').onclick=()=>$('#idlg').close();
 $('#sw').onclick=e=>{const t=e.target.dataset.t;if(t){thm=t;ls('sch-th',t);applyUi();sUi();draw()}};
 $('#vw').onclick=e=>{const v=e.target.dataset.v;if(v){vmode=v;ls('sch-vw',v);applyUi();sUi();if(!$('#app').hidden)watch()}};
 applyUi();
