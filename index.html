@@ -22,7 +22,7 @@ label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;
 input,select{height:46px;border:1px solid #c3ccd2;border-radius:10px;padding:0 12px;font:16px inherit;background:#fff}
 .row{display:flex;gap:10px}.row label{flex:1}.ch{display:flex;gap:6px;margin-bottom:10px}
 .ch button{flex:1;height:42px;border:1px solid #c3ccd2;border-radius:10px;background:#fff;font:600 14px inherit}.ch .on{background:#0f6b73;color:#fff;border-color:#0f6b73}
-.acts{display:flex;gap:8px}.acts button{flex:1;height:48px;border-radius:12px;border:1px solid #c3ccd2;background:#fff;font:600 15px inherit}.acts .ok{background:#0f6b73;color:#fff;border:0}.acts .del{color:#b42318}
+.st{width:64px;height:46px;border:1px solid #c3ccd2;border-radius:10px;background:#fff;font:600 15px inherit}.acts{display:flex;gap:8px}.acts button{flex:1;height:48px;border-radius:12px;border:1px solid #c3ccd2;background:#fff;font:600 15px inherit}.acts .ok{background:#0f6b73;color:#fff;border:0}.acts .del{color:#b42318}
 #login{padding:60px 24px;text-align:center}#login button{height:50px;padding:0 24px;border:0;border-radius:12px;background:#0f6b73;color:#fff;font:600 16px inherit}
 @media(min-width:900px){body{font-size:16px}.ap b{font-size:14px}.ap{font-size:13px}}
 </style></head><body>
@@ -31,9 +31,9 @@ input,select{height:46px;border:1px solid #c3ccd2;border-radius:10px;padding:0 1
 <div class="top"><h1 id="ttl"></h1><div class="nav"><button id="pv">‹</button><input type="date" id="dt"><button id="td">Сегодня</button><button id="nx">›</button></div><div class="gh" id="gh"></div></div>
 <div id="grid"></div><button class="fab" id="add">+ Новая запись</button></div>
 <dialog id="dlg"><form method="dialog" id="fm" onsubmit="return false">
-<div class="row"><label>Дата<input type="date" id="fd" required></label><label style="max-width:120px">Начало<input type="time" id="ft" step="600" required></label></div>
+<div class="row"><label>Дата<input type="date" id="fd" required></label><label style="max-width:140px">Начало<select id="ft" required></select></label></div>
 <label>Пациент<input id="fn" required autocomplete="off"></label>
-<div style="font-size:12px;font-weight:600;color:#3f4a52;margin-bottom:4px">Длительность, мин</div><div class="ch" id="fc"></div>
+<div style="font-size:12px;font-weight:600;color:#3f4a52;margin-bottom:4px">Длительность, мин (можно вписать вручную)</div><div style="display:flex;gap:8px;margin-bottom:8px"><button type="button" id="dm" class="st">−10</button><input id="fu" type="number" inputmode="numeric" min="5" max="480" step="5" style="flex:1;min-width:0;text-align:center"><button type="button" id="dp" class="st">+10</button></div><div class="ch" id="fc"></div>
 <label>Телефон<input id="fp" type="tel"></label><label>Что планируется<input id="fo"></label>
 <label>Статус<select id="fs"><option value="plan">Запись</option><option value="came">Пришёл</option><option value="missed">Не пришёл</option><option value="cancelled">Отменён</option></select></label>
 <div class="acts"><button type="button" id="cx">Отмена</button><button type="button" class="del" id="dl">Удалить</button><button type="button" class="ok" id="sv">Сохранить</button></div></form></dialog>
@@ -73,15 +73,18 @@ function draw(){
   if(first&&items.length+1){first=false;const hr=Math.max(lo,Math.min(new Date().getHours()*60-60,hi-120));$('#grid').scrollIntoView();window.scrollTo(0,$('#grid').offsetTop+(hr-lo)/10*RH-120)}
 }
 function watch(){setCols();unsub&&unsub();unsub=onSnapshot(query(collection(db,'appts'),where('date','>=',cols[0]),where('date','<=',cols[cols.length-1])),s=>{items=s.docs.map(d=>({id:d.id,...d.data()}));draw()},e=>{$('#grid').innerHTML='<div style="padding:20px">Ошибка доступа: '+esc(e.message)+'</div>'});draw()}
-function chips(){$('#fc').innerHTML=[15,30,45,60,90,120].map(m=>`<button type="button" data-m="${m}" class="${m===dur?'on':''}">${m}</button>`).join('')}
-function openF(x,date,time){cur=x||null;dur=x&&x.dur||30;$('#fd').value=x?x.date:(date||day);$('#ft').value=x?x.time:(time||'');$('#fn').value=x?x.name:'';$('#fp').value=x?x.phone:'';$('#fo').value=x?x.note:'';$('#fs').value=x?x.status:'plan';$('#dl').hidden=!x;chips();$('#dlg').showModal()}
-$('#fc').onclick=e=>{const m=e.target.dataset.m;if(m){dur=+m;chips()}};
+const TS=[];for(let m=360;m<=1320;m+=10)TS.push(hm(m));
+function setT(v){const l=[...TS];if(v&&!l.includes(v)){l.push(v);l.sort()}$('#ft').innerHTML='<option value="">— выберите —</option>'+l.map(t=>`<option>${t}</option>`).join('');$('#ft').value=v||''}
+const getD=()=>Math.max(5,Math.min(480,Math.round(+$('#fu').value||30)));
+function chips(){const c=+$('#fu').value;$('#fc').innerHTML=[15,30,45,60,90,120].map(m=>`<button type="button" data-m="${m}" class="${m===c?'on':''}">${m}</button>`).join('')}
+function openF(x,date,time){cur=x||null;$('#fu').value=x&&x.dur||30;$('#fd').value=x?x.date:(date||day);setT(x?x.time:(time||''));$('#fn').value=x?x.name:'';$('#fp').value=x?x.phone:'';$('#fo').value=x?x.note:'';$('#fs').value=x?x.status:'plan';$('#dl').hidden=!x;chips();$('#dlg').showModal()}
+$('#fc').onclick=e=>{const m=e.target.dataset.m;if(m){$('#fu').value=m;chips()}};$('#dm').onclick=()=>{$('#fu').value=Math.max(5,getD()-10);chips()};$('#dp').onclick=()=>{$('#fu').value=Math.min(480,getD()+10);chips()};$('#fu').oninput=chips;
 $('#grid').onclick=e=>{const a=e.target.closest('.ap');if(a){openF(items.find(x=>x.id===a.dataset.id));return}
   const d=e.target.closest('.day');if(d){const y=e.clientY-d.getBoundingClientRect().top,m=+$('#grid').dataset.lo+Math.floor(y/RH)*10;openF(null,d.dataset.d,hm(m))}};
 $('#add').onclick=()=>openF();$('#cx').onclick=()=>$('#dlg').close();
 $('#sv').onclick=async()=>{if(!$('#fd').value||!$('#ft').value||!$('#fn').value.trim()){alert('Заполните дату, время и пациента');return}
   const id=cur?cur.id:'m'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-  try{await setDoc(doc(db,'appts',id),{date:$('#fd').value,time:$('#ft').value,name:$('#fn').value.trim(),phone:$('#fp').value.trim(),note:$('#fo').value.trim(),status:$('#fs').value,dur});$('#dlg').close();if(!cols.includes($('#fd').value)){day=$('#fd').value;watch()}}catch(e){alert('Не сохранилось: '+e.message)}};
+  try{await setDoc(doc(db,'appts',id),{date:$('#fd').value,time:$('#ft').value,name:$('#fn').value.trim(),phone:$('#fp').value.trim(),note:$('#fo').value.trim(),status:$('#fs').value,dur:getD()});$('#dlg').close();if(!cols.includes($('#fd').value)){day=$('#fd').value;watch()}}catch(e){alert('Не сохранилось: '+e.message)}};
 $('#dl').onclick=async()=>{if(cur&&confirm('Удалить запись?')){try{await deleteDoc(doc(db,'appts',cur.id));$('#dlg').close()}catch(e){alert(e.message)}}};
 $('#pv').onclick=()=>shift(-1);$('#nx').onclick=()=>shift(1);$('#td').onclick=()=>{day=iso(new Date());watch()};$('#dt').onchange=e=>{if(e.target.value){day=e.target.value;watch()}};
 mq.onchange=()=>{if(!$('#app').hidden)watch()};
