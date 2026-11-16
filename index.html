@@ -25,7 +25,7 @@ input,select{height:46px;border:1px solid var(--ln);border-radius:10px;padding:0
 .st{width:64px;height:46px;border:1px solid var(--ln);border-radius:10px;background:var(--cd);font:600 15px inherit}.acts{display:flex;gap:8px}.acts button{flex:1;height:48px;border-radius:12px;border:1px solid var(--ln);background:var(--cd);font:600 15px inherit}.acts .ok{background:var(--ac);color:var(--on);border:0}.acts .del{color:var(--dg)}
 #login{padding:60px 24px;text-align:center}#login button{height:50px;padding:0 24px;border:0;border-radius:12px;background:var(--ac);color:var(--on);font:600 16px inherit}
 @media(min-width:900px){body{font-size:16px}.ap b{font-size:14px}.ap{font-size:13px}}
-body.pc{min-width:900px}.cg{font-size:12px;font-weight:600;color:var(--mu2);margin:4px 0}.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.sw button{height:46px;border:2px solid var(--ln);border-radius:10px;font:600 13px inherit;color:#fff;text-shadow:0 1px 2px #0006}.sw .on{border-color:var(--tx);box-shadow:0 0 0 2px var(--cd) inset}.nav .gear{width:40px;padding:0}</style></head><body>
+input,select,button{color:var(--tx)}.fab,.ch .on,.acts .ok,#login button,.sw button{color:var(--on)}.sw button{color:#fff}.acts .del{color:var(--dg)}body.pc{min-width:900px}.cg{font-size:12px;font-weight:600;color:var(--mu2);margin:4px 0}.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.sw button{height:46px;border:2px solid var(--ln);border-radius:10px;font:600 13px inherit;color:#fff;text-shadow:0 1px 2px #0006}.sw .on{border-color:var(--tx);box-shadow:0 0 0 2px var(--cd) inset}.nav .gear{width:40px;padding:0}</style></head><body>
 <div id="login" hidden><h1>Расписание</h1><p id="lmsg">Войдите в свой аккаунт Google</p><button id="in">Войти через Google</button></div>
 <div id="app" hidden>
 <div class="top"><h1 id="ttl"></h1><div class="nav"><button id="pv">‹</button><input type="date" id="dt"><button id="td">Сегодня</button><button id="nx">›</button><button id="gr" class="gear" title="Оформление и вид">⚙</button></div><div class="gh" id="gh"></div></div>
@@ -56,7 +56,7 @@ const TH={teal:{n:'Бирюзовая',v:{}},blue:{n:'Синяя',v:{bg:'#f3f6fc
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}};
 let thm=TH[ls('sch-th')]?ls('sch-th'):'teal',vmode=['auto','phone','pc'].includes(ls('sch-vw'))?ls('sch-vw'):'auto';
 const wide=()=>vmode==='pc'||(vmode==='auto'&&mq.matches);
-function applyUi(){const t=TH[thm],v={...L,...t.v},r=document.body.style;for(const k in v)r.setProperty('--'+k,v[k]);document.documentElement.style.background=v.bg;document.querySelector('meta[name=theme-color]').content=v.ac;
+function applyUi(){const t=TH[thm],v={...L,...t.v},r=document.body.style;for(const k in v)r.setProperty('--'+k,v[k]);document.documentElement.style.background=v.bg;document.documentElement.style.colorScheme=thm==='dark'?'dark':'light';document.querySelector('meta[name=theme-color]').content=v.ac;
   document.body.classList.toggle('pc',vmode==='pc');document.querySelector('meta[name=viewport]').content=vmode==='pc'?'width=1100':'width=device-width,initial-scale=1,viewport-fit=cover'}
 
 let bset=new Set(),day=iso(new Date()),unsub=null,items=[],cur=null,dur=30,cols=[],first=true;
