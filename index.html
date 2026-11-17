@@ -83,7 +83,7 @@ function draw(){
   if(first&&items.length+1){first=false;const hr=Math.max(lo,Math.min(new Date().getHours()*60-60,hi-120));$('#grid').scrollIntoView();window.scrollTo(0,$('#grid').offsetTop+(hr-lo)/10*RH-120)}
 }
 function watch(){setCols();unsub&&unsub();unsub=onSnapshot(query(collection(db,'appts'),where('date','>=',cols[0]),where('date','<=',cols[cols.length-1])),s=>{items=s.docs.map(d=>({id:d.id,...d.data()}));draw()},e=>{$('#grid').innerHTML='<div style="padding:20px">Ошибка доступа: '+esc(e.message)+'</div>'});draw()}
-const TS=[];for(let m=360;m<=1320;m+=10)TS.push(hm(m));
+const TS=[];for(let m=360;m<=1320;m+=5)TS.push(hm(m));
 function setT(v){let l=[...TS,...[...bset].filter(b=>b%10&&b>=360&&b<=1320).map(hm)];if(v)l.push(v);l=[...new Set(l)].sort();$('#ft').innerHTML='<option value="">— выберите —</option>'+l.map(t=>`<option>${t}</option>`).join('');$('#ft').value=v||''}
 const getD=()=>Math.max(5,Math.min(480,Math.round(+$('#fu').value||30)));
 function chips(){const c=+$('#fu').value;$('#fc').innerHTML=[15,30,45,60,90,120].map(m=>`<button type="button" data-m="${m}" class="${m===c?'on':''}">${m}</button>`).join('')}
