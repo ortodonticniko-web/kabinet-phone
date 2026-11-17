@@ -1,20 +1,20 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com; connect-src https: wss:; frame-src https:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f6b73"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><link rel="icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Расписание"><title>Расписание</title>
 <style>
-*{box-sizing:border-box}body{margin:0;--rh:36px;--rh6:216px;--bg:#f4f7f8;--cd:#fff;--tx:#14212b;--mu:#4f5b64;--ln:#c3ccd2;--l2:#dde3e7;--l3:#eef1f3;--l4:#e6ebee;--l5:#b9c4cb;--l6:#8fa1ac;--tdb:#eef7f8;--ac:#0f6b73;--on:#fff;--mu2:#3f4a52;--tx2:#2f3d47;--dg:#b42318;font:15px Inter,system-ui,Arial,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:84px}
+*{box-sizing:border-box}body{margin:0;--bg:#f4f7f8;--cd:#fff;--tx:#14212b;--mu:#4f5b64;--ln:#c3ccd2;--l2:#dde3e7;--l3:#eef1f3;--l4:#e6ebee;--l5:#b9c4cb;--l6:#8fa1ac;--tdb:#eef7f8;--ac:#0f6b73;--on:#fff;--mu2:#3f4a52;--tx2:#2f3d47;--dg:#b42318;font:15px Inter,system-ui,Arial,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:84px}
 [hidden]{display:none!important}
 .top{position:sticky;top:0;background:var(--bg);z-index:5;padding:10px 10px 0;border-bottom:1px solid var(--ln)}
 .top h1{margin:0 0 8px;font-size:19px;text-transform:capitalize}
 .nav{display:flex;gap:8px;margin-bottom:8px}.nav button,.nav input{height:40px;border:1px solid var(--ln);border-radius:10px;background:var(--cd);font:inherit;padding:0 12px}.nav input{flex:1;min-width:0}
 .gh{display:grid;margin-left:-10px;margin-right:-10px}.gh div{text-align:center;padding:4px 0;font-size:11px;color:var(--mu);border-left:1px solid var(--l2)}.gh b{display:block;font-size:17px;color:var(--tx)}.gh .td b{color:var(--ac)}.gh small{font-size:10px}
 #grid{display:grid;background:var(--cd)}
-.tc .sb{font-size:9.5px;line-height:1;padding-top:3px;border-bottom-style:dashed}.sl{position:absolute;left:0;right:0;border-top:1px dashed var(--l6);pointer-events:none}.tc div{height:var(--rh);font-size:11px;color:var(--mu);text-align:right;padding:2px 5px 0 0;border-bottom:1px solid var(--l3)}.tc .h{font-weight:700;color:var(--tx)}
-.day{position:relative;border-left:1px solid var(--l2);cursor:pointer;background-size:100% var(--rh),100% var(--rh6);background-image:linear-gradient(to bottom,transparent calc(var(--rh) - 1px),var(--l4) calc(var(--rh) - 1px)),linear-gradient(to bottom,transparent calc(var(--rh6) - 1px),var(--l5) calc(var(--rh6) - 1px))}
+.tc .sb{font-size:9.5px;line-height:1;padding-top:3px;border-bottom-style:dashed}.sl{position:absolute;left:0;right:0;border-top:1px dashed var(--l6);pointer-events:none}.tc div{height:36px;font-size:11px;color:var(--mu);text-align:right;padding:2px 5px 0 0;border-bottom:1px solid var(--l3)}.tc .h{font-weight:700;color:var(--tx)}
+.day{position:relative;border-left:1px solid var(--l2);cursor:pointer;background-size:100% 36px,100% 216px;background-image:linear-gradient(to bottom,transparent 35px,var(--l4) 35px),linear-gradient(to bottom,transparent 215px,var(--l5) 215px)}
 .day.td{background-color:var(--tdb)}
 .ap{color:var(--tx);position:absolute;border-radius:7px;border:1px solid;padding:2px 5px;overflow:hidden;font-size:12px;line-height:1.25;cursor:pointer}
-.cf{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid #8b97a0;background:#e4e8eb;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:14px;font-weight:800;line-height:1;color:transparent;z-index:2}.cf::after{content:'';position:absolute;inset:-8px}.cf.on{background:#2e9e4f;border-color:#2e9e4f;color:#fff}.cf.on::before{content:'✓'}.ap.hc b,.ap.hc span{padding-right:26px}.ap b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ap span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--tx2)}
+.ap b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ap span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--tx2)}
 .fab{position:fixed;left:50%;transform:translateX(-50%);width:min(560px,calc(100% - 32px));bottom:calc(16px + env(safe-area-inset-bottom));height:50px;border:0;border-radius:14px;background:var(--ac);color:var(--on);font:600 16px inherit;z-index:6}
 dialog{color:var(--tx);width:min(460px,94vw);border:0;border-radius:16px;padding:16px;background:var(--bg)}
 dialog::backdrop{background:#0008}
@@ -25,25 +25,19 @@ input,select{height:46px;border:1px solid var(--ln);border-radius:10px;padding:0
 .st{width:64px;height:46px;border:1px solid var(--ln);border-radius:10px;background:var(--cd);font:600 15px inherit}.acts{display:flex;gap:8px}.acts button{flex:1;height:48px;border-radius:12px;border:1px solid var(--ln);background:var(--cd);font:600 15px inherit}.acts .ok{background:var(--ac);color:var(--on);border:0}.acts .del{color:var(--dg)}
 #login{padding:60px 24px;text-align:center}#login button{height:50px;padding:0 24px;border:0;border-radius:12px;background:var(--ac);color:var(--on);font:600 16px inherit}
 @media(min-width:900px){body{font-size:16px}.ap b{font-size:14px}.ap{font-size:13px}}
-input,select,button{color:var(--tx)}.fab,.ch .on,.acts .ok,#login button,.sw button{color:var(--on)}.sw button{color:inherit;text-shadow:none}.acts .del{color:var(--dg)}.hd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.hd h1{margin:0!important;min-width:0}.pw{display:flex;gap:8px;flex:none}.rb{width:38px;height:38px;border-radius:50%;border:1px solid var(--ln);background:var(--cd);font-size:19px;line-height:1;padding:0}.ins ol{margin:6px 0 12px;padding-left:20px;line-height:1.5}.ins h3{margin:0 0 4px}.fab{width:auto!important;left:auto!important;right:16px;transform:none!important;padding:0 20px;height:46px!important;border-radius:23px!important;box-shadow:0 4px 14px #0004}body.pc{min-width:900px}.cg{font-size:12px;font-weight:600;color:var(--mu2);margin:4px 0}.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.sw button{height:46px;border:2px solid var(--ln);border-radius:10px;font:600 13px inherit}.sw .on{outline:3px solid var(--ac);outline-offset:1px}.nav .gear{width:40px;padding:0}
-.wd .tc div{font-size:13px;font-weight:600;color:var(--tx2);padding:3px 9px 0 0}
-.wd .tc .sb{font-size:11px;padding-top:2px}
-.wd .tc .h{font-size:16px;font-weight:800;color:var(--tx);box-shadow:inset 0 2px 0 var(--l6)}
-.wd .day{background-image:linear-gradient(to bottom,transparent calc(var(--rh) - 1px),var(--l4) calc(var(--rh) - 1px)),linear-gradient(to bottom,transparent calc(var(--rh6) - 2px),var(--l6) calc(var(--rh6) - 2px))}
-.rr{display:flex;gap:8px;align-items:center;margin-bottom:12px}.rr .st{width:46px;font-size:20px}.rr input[type=range]{flex:1;min-width:0;height:34px;padding:0;border:0;background:none;accent-color:var(--ac)}
-</style></head><body>
+input,select,button{color:var(--tx)}.fab,.ch .on,.acts .ok,#login button,.sw button{color:var(--on)}.sw button{color:inherit;text-shadow:none}.acts .del{color:var(--dg)}.hd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.hd h1{margin:0!important;min-width:0}.pw{display:flex;gap:8px;flex:none}.rb{width:38px;height:38px;border-radius:50%;border:1px solid var(--ln);background:var(--cd);font-size:19px;line-height:1;padding:0}.ins ol{margin:6px 0 12px;padding-left:20px;line-height:1.5}.ins h3{margin:0 0 4px}.fab{width:auto!important;left:auto!important;right:16px;transform:none!important;padding:0 20px;height:46px!important;border-radius:23px!important;box-shadow:0 4px 14px #0004}body.pc{min-width:900px}.cg{font-size:12px;font-weight:600;color:var(--mu2);margin:4px 0}.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.sw button{height:46px;border:2px solid var(--ln);border-radius:10px;font:600 13px inherit}.sw .on{outline:3px solid var(--ac);outline-offset:1px}.nav .gear{width:40px;padding:0}.sgl{display:flex;flex-direction:column;border:1px solid var(--ln);border-radius:10px;background:var(--cd);max-height:210px;overflow:auto;margin:-4px 0 10px}.sgl button{min-height:44px;text-align:left;border:0;border-bottom:1px solid var(--l3);background:none;font:16px inherit;padding:6px 12px}.sgl button:last-child{border-bottom:0}.sgl button:active{background:var(--tdb)}.cb{display:flex;gap:6px}.cb input{flex:1;min-width:0}.ar{width:46px;height:46px;flex:none;border:1px solid var(--ln);border-radius:10px;background:var(--cd);font-size:18px}</style></head><body>
 <div id="login" hidden><h1>Расписание</h1><p id="lmsg">Войдите в свой аккаунт Google</p><button id="in">Войти через Google</button></div>
 <div id="app" hidden>
 <div class="top"><div class="hd"><h1 id="ttl"></h1><span class="pw"><button type="button" id="ia" class="rb" title="Установить на Android">🤖</button><button type="button" id="ii" class="rb" title="Добавить на iPhone">🍎</button></span></div><div class="nav"><button id="pv">‹</button><input type="date" id="dt"><button id="td">Сегодня</button><button id="nx">›</button><button id="gr" class="gear" title="Оформление и вид">⚙</button></div><div class="gh" id="gh"></div></div>
 <div id="grid"></div><button class="fab" id="add">+ Новая запись</button></div>
 <dialog id="dlg"><form method="dialog" id="fm" onsubmit="return false">
 <div class="row"><label>Дата<input type="date" id="fd" required></label><label style="max-width:140px">Начало<select id="ft" required></select></label></div>
-<label>Пациент<input id="fn" required autocomplete="off"></label>
+<label>Пациент<input id="fn" required autocomplete="off"></label><div class="sgl" id="sgn" hidden></div>
 <div style="font-size:12px;font-weight:600;color:#3f4a52;margin-bottom:4px">Длительность, мин (можно вписать вручную)</div><div style="display:flex;gap:8px;margin-bottom:8px"><button type="button" id="dm" class="st">−10</button><input id="fu" type="number" inputmode="numeric" min="5" max="480" step="5" style="flex:1;min-width:0;text-align:center"><button type="button" id="dp" class="st">+10</button></div><div class="ch" id="fc"></div>
-<label>Телефон<input id="fp" type="tel"></label><label>Что планируется<input id="fo"></label>
+<label>Телефон<input id="fp" type="tel"></label><label>Что планируется<div class="cb"><input id="fo" autocomplete="off"><button type="button" id="fob" class="ar" title="Выбрать из списка">▾</button></div></label><div class="sgl" id="sgp" hidden></div>
 <label>Статус<select id="fs"><option value="plan">Запись</option><option value="came">Пришёл</option><option value="missed">Не пришёл</option><option value="cancelled">Отменён</option></select></label>
 <div class="acts"><button type="button" id="cx">Отмена</button><button type="button" class="del" id="dl">Удалить</button><button type="button" class="ok" id="sv">Сохранить</button></div></form></dialog>
-<dialog id="sdlg"><div class="cg">Оформление</div><div class="sw" id="sw"></div><div class="cg">Вид</div><div class="ch" id="vw"><button type="button" data-v="auto">Авто</button><button type="button" data-v="phone">Телефон</button><button type="button" data-v="pc">ПК</button></div><div id="rhb"><div class="cg">Высота строк (10 мин): <span id="rhv"></span></div><div class="rr"><button type="button" class="st" id="rm">−</button><input type="range" id="rh" min="24" max="80" step="2"><button type="button" class="st" id="rp">+</button></div></div><div class="acts"><button type="button" class="ok" id="sx">Готово</button></div></dialog>
+<dialog id="sdlg"><div class="cg">Оформление</div><div class="sw" id="sw"></div><div class="cg">Вид</div><div class="ch" id="vw"><button type="button" data-v="auto">Авто</button><button type="button" data-v="phone">Телефон</button><button type="button" data-v="pc">ПК</button></div><div class="acts"><button type="button" class="ok" id="sx">Готово</button></div></dialog>
 <dialog id="idlg" class="ins"><h3 id="it"></h3><ol id="il"></ol><div class="acts"><button type="button" class="ok" id="ix">Понятно</button></div></dialog>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -55,7 +49,7 @@ const $=s=>document.querySelector(s),app=initializeApp(CFG),auth=getAuth(app),db
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const p2=n=>String(n).padStart(2,'0'),hm=m=>p2(Math.floor(m/60))+':'+p2(m%60),tm=t=>{const m=/^(\d{1,2}):(\d{2})/.exec(t||'');return m?+m[1]*60+ +m[2]:null};
-const DOW=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];let RH=36;
+const DOW=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],RH=36;
 const mq=matchMedia('(min-width:900px)');
 const L={bg:'#f4f7f8',cd:'#fff',tx:'#14212b',mu:'#4f5b64',ln:'#c3ccd2',l2:'#00000080',l3:'#00000066',l4:'#00000073',l5:'#000',l6:'#000000b3',tdb:'#eef7f8',ac:'#0f6b73',on:'#fff',mu2:'#3f4a52',tx2:'#2f3d47',dg:'#b42318'};
 const PAL=[['#d8eef0','#9ccfd4'],['#fde9d3','#efc08a'],['#e6e3f7','#b9b2e6'],['#e3f2d9','#b3d89a'],['#fbe0e6','#eeaabb'],['#fff3c4','#e6cf73'],['#dbe8fb','#9dbbe8'],['#ece0d6','#cfb49c']];
@@ -63,10 +57,30 @@ const TH={teal:{n:'Бирюзовая',v:{}},blue:{n:'Синяя',v:{bg:'#f3f6fc
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}};
 let thm=TH[ls('sch-th')]?ls('sch-th'):(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'teal'),vmode=['auto','phone','pc'].includes(ls('sch-vw'))?ls('sch-vw'):'auto';
 const wide=()=>vmode==='pc'||(vmode==='auto'&&mq.matches);
-const cl=(v,a,b)=>Math.max(a,Math.min(b,v));let prh=cl(Math.round(+ls('sch-rh'))||36,24,80);
 function applyUi(){const t=TH[thm],v={...L,...t.v},r=document.body.style;for(const k in v)r.setProperty('--'+k,v[k]);document.documentElement.style.background=v.bg;document.documentElement.style.colorScheme=thm==='dark'?'dark':'light';document.querySelector('meta[name=theme-color]').content=v.ac;
-  document.body.classList.toggle('pc',vmode==='pc');document.body.classList.toggle('wd',wide());RH=wide()?40:prh;r.setProperty('--rh',RH+'px');r.setProperty('--rh6',RH*6+'px');document.querySelector('meta[name=viewport]').content=vmode==='pc'?'width=1100':'width=device-width,initial-scale=1,viewport-fit=cover'}
+  document.body.classList.toggle('pc',vmode==='pc');document.querySelector('meta[name=viewport]').content=vmode==='pc'?'width=1100':'width=device-width,initial-scale=1,viewport-fit=cover'}
 
+/* подсказки: список приходит из закрытого документа meta/suggest, на телефоне не сохраняется (только в памяти) */
+let SUG={names:[],plans:[]},unsug=null;
+const nS=s=>String(s||'').toLowerCase().replace(/ё/g,'е').trim();
+function sgShow(el,items,pick){el.textContent='';el.hidden=!items.length;items.forEach(t=>{const b=document.createElement('button');b.type='button';b.textContent=t;b.onclick=()=>{pick(t);el.hidden=true};el.appendChild(b)})}
+function nameSug(){
+  const q=nS($('#fn').value),el=$('#sgn');if(!q||!SUG.names.length){el.hidden=true;return}
+  const w=q.split(/\s+/);let r=SUG.names.filter(n=>{const x=nS(n).split(/\s+/);return w.every(v=>x.some(y=>y.startsWith(v)))});
+  r.sort((a,b)=>(nS(b).startsWith(q)-nS(a).startsWith(q)));r=r.slice(0,8);if(r.length===1&&nS(r[0])===q)r=[];
+  sgShow(el,r,t=>{$('#fn').value=t;$('#fo').focus()});
+}
+function planSug(all){
+  const el=$('#sgp'),v=$('#fo').value,segs=v.split(','),q=nS(segs[segs.length-1]);
+  if(!SUG.plans.length){el.hidden=true;return}
+  if(all){if(!el.hidden){el.hidden=true;return}sgShow(el,SUG.plans,t=>{const b=v.replace(/[,\s]+$/,'');$('#fo').value=b?b+', '+t:t})}
+  else{if(!q){el.hidden=true;return}const r=SUG.plans.filter(p=>nS(p).split(/\s+/).some(y=>y.startsWith(q))&&nS(p)!==q).slice(0,6);
+    sgShow(el,r,t=>{segs[segs.length-1]=(segs.length>1?' ':'')+t;$('#fo').value=segs.join(',')})}
+}
+$('#fn').oninput=nameSug;$('#fo').oninput=()=>planSug(false);$('#fob').onclick=()=>planSug(true);
+document.addEventListener('click',e=>{if(!e.target.closest('#sgn,#fn'))$('#sgn').hidden=true;if(!e.target.closest('#sgp,#fo,#fob'))$('#sgp').hidden=true});
+function watchSug(on){unsug&&unsug();unsug=null;SUG={names:[],plans:[]};if(!on)return;
+  unsug=onSnapshot(doc(db,'meta','suggest'),s=>{const d=s.exists()?s.data():{},a=(x,n)=>Array.isArray(x)?x.filter(t=>typeof t==='string'&&t.length<=120).slice(0,n):[];SUG={names:d.mode==='off'?[]:a(d.names,5000),plans:d.mode==='off'?[]:a(d.plans,300)}},()=>{})}
 let bset=new Set(),day=iso(new Date()),unsub=null,items=[],cur=null,dur=30,cols=[],first=true;
 const D=s=>new Date(s+'T12:00:00');
 function setCols(){if(wide()){const d=D(day),w=(d.getDay()+6)%7;d.setDate(d.getDate()-w);cols=[...Array(7)].map((_,i)=>{const x=new Date(d);x.setDate(d.getDate()+i);return iso(x)})}else cols=[day]}
@@ -76,7 +90,7 @@ function draw(){
   const td=iso(new Date()),n=cols.length;
   $('#ttl').textContent=n>1?D(cols[0]).toLocaleDateString('ru-RU',{day:'numeric',month:'long'})+' — '+D(cols[6]).toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'}):D(day).toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
   $('#dt').value=day;
-  const tpl=(wide()?'66px':'52px')+' repeat('+n+',1fr)';$('#gh').style.gridTemplateColumns=tpl;$('#grid').style.gridTemplateColumns=tpl;
+  const tpl='52px repeat('+n+',1fr)';$('#gh').style.gridTemplateColumns=tpl;$('#grid').style.gridTemplateColumns=tpl;
   const by={};cols.forEach(c=>by[c]=[]);
   items.forEach(x=>{const s=tm(x.time);if(s!==null&&by[x.date])by[x.date].push({x,s,e:s+Math.max(5,x.dur||30)})});
   let lo=480,hi=1200;Object.values(by).flat().forEach(a=>{lo=Math.min(lo,Math.floor(a.s/60)*60);hi=Math.max(hi,Math.ceil(a.e/60)*60)});
@@ -85,30 +99,27 @@ function draw(){
   let h='<div class="tc">'+[...Array(rows)].map((_,i)=>{const m=lo+i*10,pt=sp(m);return pt.map((q,k)=>{const len=(k+1<pt.length?pt[k+1]:m+10)-q;return`<div class="${q%60?'':'h'}${len<10?' sb':''}" style="height:${len/10*RH}px">${hm(q)}</div>`}).join('')}).join('')+'</div>';
   cols.forEach(c=>{const l=by[c].sort((a,b)=>a.s-b.s);lanes(l);
     h+=`<div class="day ${c===td?'td':''}" data-d="${c}" style="height:${rows*RH}px">`+[...bset].filter(b=>b%10&&b>lo&&b<hi).map(b=>`<div class="sl" style="top:${(b-lo)/10*RH}px"></div>`).join('')+l.map((a,i)=>{const T=TH[thm],CO=T.col||PAL,k=a.x.status==='cancelled'?(T.cx||['#eceff1','#cfd6db']):CO[i%CO.length],w=100/a.n,mk=a.x.status==='came'?'✓ ':a.x.status==='missed'?'✕ ':'';
-      return`<div class="ap${a.x.status==='cancelled'?'':' hc'}" data-id="${esc(a.x.id)}" style="top:${(a.s-lo)/10*RH}px;height:${Math.max(RH/2-2,(a.e-a.s)/10*RH-2)}px;left:calc(${a.l*w}% + 1px);width:calc(${w}% - 3px);background:${k[0]};border-color:${k[1]};${a.x.status==='cancelled'?'opacity:.7;':''}"><b>${mk}${esc(a.x.name)}</b><span>${esc(a.x.time)} · ${a.x.dur||30} мин${a.x.note?' · '+esc(a.x.note):''}</span>${a.x.status==='cancelled'?'':`<i class="cf${a.x.conf?' on':''}" data-cf="${esc(a.x.id)}" title="Подтверждено?"></i>`}</div>`}).join('')+'</div>'});
+      return`<div class="ap" data-id="${esc(a.x.id)}" style="top:${(a.s-lo)/10*RH}px;height:${Math.max(RH/2-2,(a.e-a.s)/10*RH-2)}px;left:calc(${a.l*w}% + 1px);width:calc(${w}% - 3px);background:${k[0]};border-color:${k[1]};${a.x.status==='cancelled'?'opacity:.7;':''}"><b>${mk}${esc(a.x.name)}</b><span>${esc(a.x.time)} · ${a.x.dur||30} мин${a.x.note?' · '+esc(a.x.note):''}</span></div>`}).join('')+'</div>'});
   $('#grid').dataset.lo=lo;$('#grid').innerHTML=h;
   if(first&&items.length+1){first=false;const hr=Math.max(lo,Math.min(new Date().getHours()*60-60,hi-120));$('#grid').scrollIntoView();window.scrollTo(0,$('#grid').offsetTop+(hr-lo)/10*RH-120)}
 }
 function watch(){setCols();unsub&&unsub();unsub=onSnapshot(query(collection(db,'appts'),where('date','>=',cols[0]),where('date','<=',cols[cols.length-1])),s=>{items=s.docs.map(d=>({id:d.id,...d.data()}));draw()},e=>{$('#grid').innerHTML='<div style="padding:20px">Ошибка доступа: '+esc(e.message)+'</div>'});draw()}
-const TS=[];for(let m=360;m<=1320;m+=5)TS.push(hm(m));
-function setT(v){let l=[...TS,...[...bset].filter(b=>b%10&&b>=360&&b<=1320).map(hm)];if(v)l.push(v);l=[...new Set(l)].sort();$('#ft').innerHTML='<option value="">— выберите —</option>'+l.map(t=>`<option>${t}</option>`).join('');$('#ft').value=v||''}
+const TS=[];for(let m=300;m<=1380;m+=5)TS.push(hm(m));
+function setT(v){let l=[...TS,...[...bset].filter(b=>b%10&&b>=300&&b<=1380).map(hm)];if(v)l.push(v);l=[...new Set(l)].sort();$('#ft').innerHTML='<option value="">— выберите —</option>'+l.map(t=>`<option>${t}</option>`).join('');$('#ft').value=v||''}
 const getD=()=>Math.max(5,Math.min(480,Math.round(+$('#fu').value||30)));
 function chips(){const c=+$('#fu').value;$('#fc').innerHTML=[15,30,45,60,90,120].map(m=>`<button type="button" data-m="${m}" class="${m===c?'on':''}">${m}</button>`).join('')}
-function openF(x,date,time){cur=x||null;$('#fu').value=x&&x.dur||30;$('#fd').value=x?x.date:(date||day);setT(x?x.time:(time||''));$('#fn').value=x?x.name:'';$('#fp').value=x?x.phone:'';$('#fo').value=x?x.note:'';$('#fs').value=x?x.status:'plan';$('#dl').hidden=!x;chips();$('#dlg').showModal()}
+function openF(x,date,time){cur=x||null;$('#fu').value=x&&x.dur||30;$('#fd').value=x?x.date:(date||day);setT(x?x.time:(time||''));$('#fn').value=x?x.name:'';$('#fp').value=x?x.phone:'';$('#fo').value=x?x.note:'';$('#fs').value=x?x.status:'plan';$('#dl').hidden=!x;$('#sgn').hidden=$('#sgp').hidden=true;chips();$('#dlg').showModal()}
 $('#fc').onclick=e=>{const m=e.target.dataset.m;if(m){$('#fu').value=m;chips()}};$('#dm').onclick=()=>{$('#fu').value=Math.max(5,getD()-10);chips()};$('#dp').onclick=()=>{$('#fu').value=Math.min(480,getD()+10);chips()};$('#fu').oninput=chips;
-$('#grid').onclick=async e=>{const cf=e.target.closest('.cf');if(cf){e.stopPropagation();const x=items.find(i=>i.id===cf.dataset.cf);if(x){const v=!x.conf;x.conf=v;cf.classList.toggle('on',v);try{await setDoc(doc(db,'appts',x.id),{conf:v},{merge:true})}catch(er){x.conf=!v;cf.classList.toggle('on',!v);alert('Не сохранилось: '+er.message)}}return}
-  const a=e.target.closest('.ap');if(a){openF(items.find(x=>x.id===a.dataset.id));return}
+$('#grid').onclick=e=>{const a=e.target.closest('.ap');if(a){openF(items.find(x=>x.id===a.dataset.id));return}
   const d=e.target.closest('.day');if(d){const y=e.clientY-d.getBoundingClientRect().top,lo=+$('#grid').dataset.lo,mm=lo+y/RH*10,r=lo+Math.floor(y/RH)*10,m=Math.max(...[r,...[...bset].filter(b=>b>r&&b<r+10)].filter(q=>q<=mm));openF(null,d.dataset.d,hm(m))}};
 $('#add').onclick=()=>openF();$('#cx').onclick=()=>$('#dlg').close();
 $('#sv').onclick=async()=>{if(!$('#fd').value||!$('#ft').value||!$('#fn').value.trim()){alert('Заполните дату, время и пациента');return}
   const id=cur?cur.id:'m'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-  try{await setDoc(doc(db,'appts',id),{date:$('#fd').value,time:$('#ft').value,name:$('#fn').value.trim(),phone:$('#fp').value.trim(),note:$('#fo').value.trim(),status:$('#fs').value,dur:getD(),conf:cur?!!cur.conf:false});$('#dlg').close();if(!cols.includes($('#fd').value)){day=$('#fd').value;watch()}}catch(e){alert('Не сохранилось: '+e.message)}};
+  try{await setDoc(doc(db,'appts',id),{date:$('#fd').value,time:$('#ft').value,name:$('#fn').value.trim(),phone:$('#fp').value.trim(),note:$('#fo').value.trim(),status:$('#fs').value,dur:getD()});$('#dlg').close();if(!cols.includes($('#fd').value)){day=$('#fd').value;watch()}}catch(e){alert('Не сохранилось: '+e.message)}};
 $('#dl').onclick=async()=>{if(cur&&confirm('Удалить запись?')){try{await deleteDoc(doc(db,'appts',cur.id));$('#dlg').close()}catch(e){alert(e.message)}}};
 $('#pv').onclick=()=>shift(-1);$('#nx').onclick=()=>shift(1);$('#td').onclick=()=>{day=iso(new Date());watch()};$('#dt').onchange=e=>{if(e.target.value){day=e.target.value;watch()}};
-mq.onchange=()=>{applyUi();if(!$('#app').hidden)watch()};
-function sUi(){$('#sw').innerHTML=Object.entries(TH).map(([k,t])=>`<button type="button" data-t="${k}" class="${k===thm?'on':''}" style="background:linear-gradient(90deg,${t.v.ac||L.ac} 0 20%,${t.v.bg||L.bg} 20%);color:${t.v.tx||L.tx};border-color:${t.v.ln||L.ln}">${t.n}</button>`).join('');$('#vw').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===vmode));$('#rhb').hidden=wide();$('#rh').value=prh;$('#rhv').textContent=prh+' px'}
-const setRH=v=>{prh=cl(Math.round(v),24,80);ls('sch-rh',prh);applyUi();sUi();draw()};
-$('#rh').oninput=e=>setRH(+e.target.value);$('#rm').onclick=()=>setRH(prh-2);$('#rp').onclick=()=>setRH(prh+2);
+mq.onchange=()=>{if(!$('#app').hidden)watch()};
+function sUi(){$('#sw').innerHTML=Object.entries(TH).map(([k,t])=>`<button type="button" data-t="${k}" class="${k===thm?'on':''}" style="background:linear-gradient(90deg,${t.v.ac||L.ac} 0 20%,${t.v.bg||L.bg} 20%);color:${t.v.tx||L.tx};border-color:${t.v.ln||L.ln}">${t.n}</button>`).join('');$('#vw').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===vmode))}
 $('#gr').onclick=()=>{sUi();$('#sdlg').showModal()};$('#sx').onclick=()=>$('#sdlg').close();
 let dp=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e});
 if(matchMedia('(display-mode: standalone)').matches||navigator.standalone)document.querySelector('.pw').hidden=true;
@@ -120,5 +131,5 @@ $('#sw').onclick=e=>{const t=e.target.dataset.t;if(t){thm=t;ls('sch-th',t);apply
 $('#vw').onclick=e=>{const v=e.target.dataset.v;if(v){vmode=v;ls('sch-vw',v);applyUi();sUi();if(!$('#app').hidden)watch()}};
 applyUi();
 $('#in').onclick=()=>signInWithPopup(auth,new GoogleAuthProvider()).catch(e=>$('#lmsg').textContent='Не удалось войти: '+e.message);
-onAuthStateChanged(auth,u=>{const ok=u&&(!OWNER||u.email.toLowerCase()===OWNER.toLowerCase());$('#app').hidden=!ok;$('#login').hidden=!!ok;if(u&&!ok)$('#lmsg').textContent='Этот аккаунт не имеет доступа';if(ok)watch();else unsub&&unsub()});
+onAuthStateChanged(auth,u=>{const ok=u&&(!OWNER||u.email.toLowerCase()===OWNER.toLowerCase());$('#app').hidden=!ok;$('#login').hidden=!!ok;if(u&&!ok)$('#lmsg').textContent='Этот аккаунт не имеет доступа';if(ok)watch();else unsub&&unsub();watchSug(!!ok)});
 </script></body></html>
